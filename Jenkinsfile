@@ -2,6 +2,7 @@ node {
     stage('Build') {
         docker.image('python:2-alpine').inside {
             sh "ls -R ."  // debug: see what files are visible
+            sh "pwd"  // debug: see what files are visible
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
