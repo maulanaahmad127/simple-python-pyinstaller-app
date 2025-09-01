@@ -9,7 +9,7 @@ import calc
 argnumbers = len(sys.argv) - 1
 
 if argnumbers == 2 :
-    print("my name is lana")
+    print("my name is lana 2")
     print("")
     print("The result is " + str(calc.add2(str(sys.argv[1]), str(sys.argv[2]))))
     print("")
