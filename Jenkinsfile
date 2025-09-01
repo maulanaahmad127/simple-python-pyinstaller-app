@@ -1,23 +1,23 @@
 node {
     stage('Build') {
         docker.image('python:2-alpine').inside("-v ${pwd()}:/workspace -w /workspace") {
-            sh "git pull"  // debug: see what files are visible
-            sh "pwd"  // debug: see what files are visible
-            sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            sh "python -m py_compile sources/add2vals.py sources/calc.py"
         }
     }
+
     stage('Test') {
-        docker.image('qnib/pytest').inside {
+        docker.image('qnib/pytest').inside("-v ${pwd()}:/workspace -w /workspace") {
             try {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh "py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py"
             } finally {
                 junit 'test-reports/results.xml'
             }
         }
     }
+
     stage('Deploy') {
-        docker.image('cdrx/pyinstaller-linux:python2').inside {
-            sh 'pyinstaller --onefile sources/add2vals.py'
+        docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${pwd()}:/workspace -w /workspace") {
+            sh "pyinstaller --onefile sources/add2vals.py"
         }
         archiveArtifacts 'dist/add2vals'
     }
