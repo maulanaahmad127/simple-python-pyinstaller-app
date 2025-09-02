@@ -20,7 +20,10 @@ node {
     }
     stage('Deploy') {
         docker.image('python:2-alpine').inside('--user root') {
-            sh 'pyinstaller --onefile sources/add2vals.py'
+            sh '''
+            pip install --no-cache-dir pyinstaller
+            pyinstaller --onefile sources/add2vals.py
+        '''
         }
         archiveArtifacts 'dist/add2vals'
     }
