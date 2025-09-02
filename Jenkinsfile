@@ -1,7 +1,11 @@
 node {
+    stage('Checkout') {
+        // ambil seluruh isi repo, bukan cuma Jenkinsfile
+        checkout scm
+        sh 'ls -R .'
+    }
     stage('Build') {
         docker.image('python:2-alpine').inside {
-            sh 'ls -R .'
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
