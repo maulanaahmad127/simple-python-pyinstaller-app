@@ -21,6 +21,7 @@ node {
     stage('Deploy') {
     docker.image('python:2-alpine').inside('--user root') {
         sh '''
+            apk add --no-cache gcc musl-dev libffi-dev make binutils
             pip install --no-cache-dir "pyinstaller==3.6"
             pyinstaller --onefile sources/add2vals.py
         '''
